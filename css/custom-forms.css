@@ -1,0 +1,347 @@
+.calendar_wrapper {
+    flex-grow: 1;
+}
+.calendar_wrapper.day_container {
+    max-width:500px;
+}
+.day_wrapper {
+    position: relative;
+    padding: 20px 16px;
+    border-top: 1px solid rgba(77, 80, 85, 0.1);
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.day_wrapper:first-child {
+    border-top: none;
+}
+
+.interval_container {
+    margin-top: 32px;
+}
+@media (min-width:768px) {
+    .index_container {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        min-height: 42px;
+    }
+    .checkbox_wrapper {
+        width: 88px;
+        margin-top: 12px;
+    }
+    .day_wrapper {
+        display: flex;
+        align-items: flex-start;
+        margin: 0 24px;
+        padding: 20px 0;
+    }
+    .interval_container {
+        margin-top: 0;
+    }
+}
+.checkbox_wrapper {
+    flex-shrink: 0;
+}
+.index_label {
+    position: relative;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+
+.index_label::before {
+    position: absolute;
+    top: -20px;
+    right: -24px;
+    bottom: -20px;
+    left: -49px;
+    content: '';
+}
+.calendar_title {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 24px 24px 0;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.styles_container {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    color: rgb(0, 162, 255);
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.styles_container .checkbox_input:checked + .styles_body,
+.styles_container .checkbox_input:indeterminate + .styles_body {
+    border-color: transparent;
+}
+.styles_container .checkbox_input:checked:not(:indeterminate) + .styles_body .checked_icon {
+    display: block;
+}
+.styles_container .checkbox_input:indeterminate + .styles_body .indeterminate_icon {
+    display: block;
+}
+.styles_container .checkbox_input:disabled + .styles_body {
+    opacity: 0.5;
+}
+.styles_container .checkbox_input:focus + .styles_body::before {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    bottom: -2px;
+    left: -2px;
+    border-radius: inherit;
+    box-shadow: 0 0 0 1px;
+    content: '';
+}
+.svg_style {
+    display: none;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+}
+.visually_hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    clip: rect(0, 0, 0, 0);
+}
+.styles_body {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 13.333%;
+    box-shadow: inset 0 0 0 1px #d0d0d0;
+}
+.index_component {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 46px;
+    padding: 8px;
+    color: rgb(77, 80, 85);
+    font-size: 16px;
+    line-height: 1.5;
+    word-wrap: normal;
+    background: #ffffff;
+    border: 1px solid #d0d0d0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.index_component:focus {
+    outline: none;
+}
+.index_component::-ms-clear {
+    display: none;
+}
+.index_component[disabled] {
+    color: #e1e1e1;
+    background: #f0f0f0;
+}
+.timeinput_container {
+    display: flex;
+    align-items: center;
+}
+.timeimput_inside_container {
+    position: relative;
+}
+.timeinput {
+    width: 105px;
+}
+.remove_icon {
+    position: relative;
+    width: 30px;
+    margin-left: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: center;
+    cursor:pointer;
+    display:none;
+}
+.remove_icon::before {
+    position: absolute;
+    top: 0;
+    right: -7px;
+    bottom: 0;
+    left: -7px;
+    content: '';
+}
+.label_wrapper {
+    display: inline-flex;
+    cursor: pointer;
+}
+.checkbox_labeltext {
+    margin-left: 10px;
+}
+.checkbox_container {
+    margin-top:2px;
+}
+.dash {
+    width: 20px;
+    text-align: center;
+}
+.fa-trash-o {
+    font-size: 20px;
+    color: rgba(77, 80, 85, 0.6);
+}
+input[type="checkbox"], input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+.index_content {
+    font-size:16px;
+    max-width: 980px;
+    margin: 20px auto 32px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 5px rgba(0, 74, 116, 0.15);
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+}
+.disabled_weekday {
+    color: rgba(77, 80, 85, 0.6);
+    font-size: 16px;
+}
+
+.float_banner_wrapper {
+    bottom: 16px;
+    left: 50%;
+    transform: translate(-50%, 200px);
+    opacity: 0;
+    transition: all 300ms ease-out;
+}
+.float_banner_wrapper.float_banner_wrapper_is_shown {
+    transform: translate(-50%, 0);
+    opacity: 1;
+}
+.fixed_container {
+    position: fixed;
+}
+.index_banner {
+    padding: 24px;
+    font-weight: 700;
+    line-height: 24px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    font-size:16px;
+}
+
+.index_banner.banner_success {
+    background: #edf9f1;
+    border-color: #74d784;
+}
+.index_banner.banner_error {
+    background: #f0f0f0;
+    border-color: #a8a8a8;
+}
+.index_component.index_component_invalid {
+    border: 1px solid rgba(179, 31, 31, 0.8);
+}
+.interval_error {
+    font-size:16px;
+    margin: 4px 0 0 0;
+    color: rgba(179, 31, 31, 0.8);
+}
+svg:not(:root) {
+    overflow: hidden;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+/* Spinner */
+
+.loader_wrapper {
+    width:120px;
+}
+.loader {
+    color: #00a2ff;
+    font-size: 40px;
+    text-indent: -9999em;
+    overflow: hidden;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    margin: 40px auto;
+    position: relative;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+    animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+}
+@-webkit-keyframes load6 {
+    0% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    5%,
+    95% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    10%,
+    59% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+    }
+    20% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+    }
+    38% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+    }
+    100% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+}
+@keyframes load6 {
+    0% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    5%,
+    95% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+    10%,
+    59% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.087em -0.825em 0 -0.42em, -0.173em -0.812em 0 -0.44em, -0.256em -0.789em 0 -0.46em, -0.297em -0.775em 0 -0.477em;
+    }
+    20% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.338em -0.758em 0 -0.42em, -0.555em -0.617em 0 -0.44em, -0.671em -0.488em 0 -0.46em, -0.749em -0.34em 0 -0.477em;
+    }
+    38% {
+        box-shadow: 0 -0.83em 0 -0.4em, -0.377em -0.74em 0 -0.42em, -0.645em -0.522em 0 -0.44em, -0.775em -0.297em 0 -0.46em, -0.82em -0.09em 0 -0.477em;
+    }
+    100% {
+        box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;
+    }
+}
+@-webkit-keyframes round {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes round {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}

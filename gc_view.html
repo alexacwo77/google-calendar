@@ -1,0 +1,268 @@
+<div class="wrap">
+    <h2>Google Calendar Availability</h2>
+
+    <div ng-app="gcApp">
+        <div ng-controller="gcAvailabilityController">
+
+            <div class="index_content">
+
+                <div class="calendar_wrapper day_container" ng-cloak>
+                    <h2 class="calendar_title">Set your weekly hours</h2>
+                    <div class="loader_wrapper">
+                        <div class="loader"
+                             ng-if="Utils.keys(availability).length == 0"
+                        >
+                            Loading...
+                        </div>
+                    </div>
+                    <div ng-if="Utils.keys(availability).length > 0">
+                        <div class="day_wrapper"
+                             ng-repeat="(weekDay, data) in availability"
+                        >
+                            <div class="checkbox_wrapper">
+                                <label class="label_wrapper">
+                                    <div class="checkbox_container">
+                                        <div class="custom_checkbox checkbox_input styles_container">
+                                            <input type="checkbox"
+                                                   class="checkbox_input visually_hidden"
+                                                   ng-model="data.is_available"
+                                                   ng-change="updateData(weekDay)"
+                                            />
+                                            <div class="styles_body">
+                                                <svg class="checked_icon svg_style" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                            d="M2 0h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm6.156 3.5L4.975 6.68 3.561 5.267 2.5 6.328 4.621 8.45l.354.354L9.217 4.56 8.156 3.5z"
+                                                            fill="currentColor"
+                                                            fill-rule="evenodd"
+                                                    ></path>
+                                                </svg>
+                                                <svg class="indeterminate_icon svg_style" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M2 0h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zM9.2 5.6H2.8V7.2H9.2V5.6Z"
+                                                            fill="currentColor"
+                                                            fill-rule="evenodd"
+                                                    ></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox_labeltext">
+                                        <span class="index_label">
+                                            {{ weekDay }}
+                                        </span>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="index_container">
+                                <div ng-if="data.is_available">
+                                    <div class="interval_container">
+                                        <div class="timeinput_container">
+                                            <div class="timeimput_inside_container">
+                                                <div class="timeinput timeinput_cls">
+                                                    <input name="from"
+                                                           type="time"
+                                                           class="index_component"
+                                                           ng-model="data.from"
+                                                           ng-change="updateData(weekDay)"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="dash">-</div>
+                                            <div class="timeimput_inside_container">
+                                                <div class="timeinput timeinput_cls">
+                                                    <input name="to"
+                                                           type="time"
+                                                           class="index_component"
+                                                           ng-class="{'index_component_invalid': data.interval_error}"
+                                                           ng-model="data.to"
+                                                           ng-change="updateData(weekDay)"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div class="remove_icon">
+                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                            </div>
+
+                                        </div>
+                                        <p class="interval_error"
+                                           ng-if="data.interval_error"
+                                        >
+                                            Choose an end time later than the start time.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="disabled_weekday"
+                                     ng-if="!data.is_available"
+                                >
+                                    Unavailable
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="float_banner_wrapper fixed_container"
+                 ng-class="{'float_banner_wrapper_is_shown': responseMessageIsDisplayed}"
+            >
+                <div class="index_banner"
+                     ng-class="{banner_success: responseIsSuccess}"
+                >
+                    {{ responseMessage }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('gcApp', [
+        'googleCalendarService'
+    ]);
+
+    angular
+        .module('googleCalendarService', [])
+        .factory('GoogleCalendar', function($http, $httpParamSerializerJQLike) {
+            return {
+                getAvailability : function() {
+                    var data = {
+                        action: 'get_google_calendar'
+                    };
+
+                    return $http({
+                        method: 'POST',
+                        url: angular_object.ajax_url,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        },
+                        data: $httpParamSerializerJQLike(data)
+                    })
+                },
+                updateAvailability : function(weekDay, data) {
+                    return $http({
+                        method: 'POST',
+                        url: angular_object.ajax_url,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                        },
+                        data: $httpParamSerializerJQLike({
+                            action: 'update_google_calendar',
+                            week_day: weekDay,
+                            data: data
+                        })
+                    })
+                }
+            }
+        });
+
+    app.controller('gcAvailabilityController', function($scope, $timeout, GoogleCalendar) {
+
+        $scope.availability = {};
+        $scope.Utils = {
+            keys : Object.keys
+        };
+
+        $scope.initResponseValues = function() {
+            $scope.responseMessageIsDisplayed = false;
+            $scope.responseIsSuccess = false;
+            $scope.responseMessage = '';
+        };
+        $scope.initResponseValues();
+
+        GoogleCalendar
+            .getAvailability()
+            .then(
+                function(response) {
+                    const data = response.data;
+                    if (data && Object.keys(data).length > 0) {
+                        angular.forEach(data, function(value, key) {
+                            let dateTo;
+                            let dateFrom;
+                            const date = new Date(1970, 0, 1, 9, 0, 0);
+                            if (value.from) {
+                                const fromData = value.from.split(':');
+                                dateFrom = new Date(1970, 0, 1, parseInt(fromData[0]), parseInt(fromData[1]), 0);
+                            } else {
+                                dateFrom = date;
+                            }
+                            if (value.to) {
+                                const toData = value.to.split(':');
+                                dateTo = new Date(1970, 0, 1, parseInt(toData[0]), parseInt(toData[1]), 0);
+                            } else {
+                                dateTo = date;
+                            }
+
+                            $scope.availability[value.week_day] = {
+                                'is_available': !!parseInt(value.is_available),
+                                'from': dateFrom,
+                                'to': dateTo,
+                                'interval_error': false
+                            };
+                        });
+                    }
+
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+
+        $scope.updateData = function(weekDay) {
+            const data = $scope.availability[weekDay];
+            $scope.checkIfToTimeIsLaterThanFromTime(data);
+
+            if (!data.interval_error) {
+                let fromHours = $scope.getHoursFromDate(data.from);
+                let toHours = $scope.getHoursFromDate(data.to);
+                let fromMinutes = $scope.getMinutesFromDate(data.from);
+                let toMinutes = $scope.getMinutesFromDate(data.to);
+
+                const updatedData = {
+                    is_available: data.is_available,
+                    from: fromHours + ':' + fromMinutes,
+                    to: toHours + ':' + toMinutes,
+                };
+                GoogleCalendar
+                    .updateAvailability(weekDay, updatedData)
+                    .then(
+                        function(response) {
+                            const data = response.data;
+                        },
+                        function(error) {
+                            console.log(error);
+                        }
+                    );
+
+                $scope.showResponseMessage();
+            }
+        };
+
+        $scope.getHoursFromDate = function(date) {
+            let hours = date.getHours();
+            hours = ("0" + hours).slice(-2);
+
+            return hours;
+        };
+        $scope.getMinutesFromDate = function(date) {
+            let minutes = date.getMinutes();
+            minutes = ("0" + minutes).slice(-2);
+
+            return minutes;
+        };
+        $scope.checkIfToTimeIsLaterThanFromTime = function(data) {
+            data.interval_error = data.from >= data.to;
+        };
+
+        $scope.showResponseMessage = function() {
+            $scope.responseMessageIsDisplayed = true;
+            $scope.responseIsSuccess = true;
+            $scope.responseMessage = 'Changes saved';
+
+            $timeout(function() {
+                $scope.initResponseValues();
+            }, 3000);
+        }
+    });
+</script>
