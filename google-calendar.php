@@ -12,7 +12,8 @@
 
   add_action('init', 'gc_check_if_is_admin');
 
-  function gc_check_if_is_admin() {
+  function gc_check_if_is_admin()
+  {
     if (is_super_admin() ) {
 
       global $wpdb;
@@ -50,7 +51,8 @@
 
   add_action( 'wp_ajax_get_google_calendar', 'gc_get_google_calendar' );
   add_action( 'wp_ajax_nopriv_get_google_calendar', 'gc_get_google_calendar' );
-  function gc_get_google_calendar() {
+  function gc_get_google_calendar()
+  {
     global $wpdb;
     $googleCalendarTable = $wpdb->prefix . "google_calendar";
 
@@ -63,7 +65,8 @@
 
   add_action( 'wp_ajax_update_google_calendar', 'gc_update_google_calendar' );
   add_action( 'wp_ajax_nopriv_update_google_calendar', 'gc_update_google_calendar' );
-  function gc_update_google_calendar() {
+  function gc_update_google_calendar()
+  {
     global $wpdb;
 
     $googleCalendarTable = $wpdb->prefix . "google_calendar";

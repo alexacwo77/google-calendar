@@ -19,7 +19,6 @@
 
     function remove_default_stylesheets()
     {
-      // TODO: temp fix
       wp_deregister_style('forms');
       wp_enqueue_style('forms', plugins_url('/css/custom-forms.css',__FILE__ ), [], '1.2');
     }
